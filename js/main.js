@@ -181,7 +181,7 @@
 
     // Percent Scale (y-axis)
     var percentScaleY = d3.scale.linear()
-      .domain([0.0, 100.0])
+      .domain([0.0, 1.0])
       .range([height, 0]);
 
     var xAxis = d3.svg.axis()
@@ -190,6 +190,7 @@
 
     var yAxis = d3.svg.axis()
       .scale(percentScaleY)
+      .tickFormat(d3.format("%"))
       .orient("left");
 
     svg.selectAll(".bar")
@@ -200,18 +201,6 @@
       .attr("width", shelterScaleX.rangeBand())
       .attr("y", function(d) { return percentScaleY(d.percent); })
       .attr("height", function(d) { return height - percentScaleY(d.percent); });
-
-    // var bar = svg.selectAll("g")
-    //     .data(data)
-    //     .enter()
-    //   .append("g")
-    //     .attr("transform", function(d, i) { "translate(" + (i * barWidth) + ", 0)"; });
-    //
-    // bar.append("rect")
-    //   .attr("x", function(d) { return shelterScaleX(d.type); })
-    //   .attr("y", 0)
-    //   .attr("height", function(d) { return height - percentScaleY(d.percent); })
-    //   .attr("width", barWidth - 10);
 
     // Add axiis
     svg.append("g")

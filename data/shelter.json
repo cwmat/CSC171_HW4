@@ -1,14 +1,14 @@
 [
   {
     "type": "Caravan",
-    "percent": 79.68
+    "percent": 0.7968
   },
   {
     "type": "Tent",
-    "percent": 9.51
+    "percent": 0.0951
   },
   {
     "type": "Combination",
-    "percent": 10.81
+    "percent": 0.1081
   }
 ]
