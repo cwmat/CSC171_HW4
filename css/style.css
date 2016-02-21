@@ -1,0 +1,29 @@
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.portfolio-item {
+    margin-bottom: 25px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.page-header {
+  margin-bottom: 1em;
+}
+
+.area {
+  fill: #FF0000;
+  fill-opacity: 0.75;
+}
+
+.area:hover {
+  fill-opacity: 0.90;
+}
+
+.line {
+  fill: none;
+  stroke: black;
+}
