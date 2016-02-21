@@ -16,14 +16,25 @@ footer {
 
 .area {
   fill: #FF0000;
-  fill-opacity: 0.75;
+  fill-opacity: 0.45;
 }
 
 .area:hover {
-  fill-opacity: 0.90;
+  fill-opacity: 0.60;
 }
 
 .line {
   fill: none;
-  stroke: black;
+  stroke: #FF0000;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-size: 10px;
 }

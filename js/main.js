@@ -14,7 +14,7 @@
       top: 20,
       right: 10,
       bottom: 20,
-      left: 10
+      left: 50
     };
 
     // Width and height for inner dimensions of chart area
@@ -48,11 +48,11 @@
     console.log(popScaleY(57250));
 
     var xAxis = d3.svg.axis()
-      .scale(x)
+      .scale(dateScaleX)
       .orient("bottom");
 
     var yAxis = d3.svg.axis()
-      .scale(y)
+      .scale(popScaleY)
       .orient("left");
 
     // Area function for filling area under path
@@ -83,6 +83,22 @@
     svg.append("path")
       .attr("class", "line")
       .attr("d", line(data));
+
+    // Add axiis
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Population");
 
 
 
