@@ -123,21 +123,20 @@
           d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
       console.log(x0);
+      console.log("its working!");
 
       focus.select("circle.y")
         .attr("transform", "translate(" + dateScaleX(d.date) + "," + popScaleY(d.population) + ")");
     }
 
     svg.append("rectangle")
-      .attr({
-        width: width,
-        height: height,
-      })
+      .attr("width", width)
+      .attr("height", height)
       .style("fill", "none")
       .style("pointer-events", "all")
       .on("mouseover", function() { focus.style("display", null); })
       .on("mouseout", function() { focus.style("display", "none"); })
-      .on("mousemoove", mousemove());
+      .on("mousemove", mousemove);
 
 
 
