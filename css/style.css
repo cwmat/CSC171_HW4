@@ -48,3 +48,13 @@ footer {
 .bar:hover {
   fill-opacity: 0.60;
 }
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: none;
+  stroke: black;
+}

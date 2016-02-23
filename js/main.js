@@ -99,44 +99,75 @@
       .text("Population");
 
     // Create focus
-    var focus = svg.append("focus")
-      .style("display", "none");
-
-    focus.append("circle")
-      .attr("class", "y")
-      .style("fill", "none")
-      .style("stroke", "black")
-      .attr("r", 4);
-
+    // Attempted the d3 tricks version.  WIll come back to it sometime later (after HW is turned in)
+    // var focus = svg.append("focus")
+    //   .style("display", "none");
+    //
+    // focus.append("circle")
+    //   .attr("class", "y")
+    //   .style("fill", "none")
+    //   .style("stroke", "black")
+    //   .attr("r", 4);
+    //
+    // var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+    //
+    // /* Mouse move
+    //  *    Handle mouse mouve events for area chart.
+    //  *
+    //  *    return: undefined
+    //  */
+    // function mousemove() {
+    //   var x0 = dateScaleX.invert(d3.mouse(this)[0]),
+    //       i = bisectDate(data, x0, 1),
+    //       d0 = data[i - 1],
+    //       d1 = data[i],
+    //       d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    //
+    //   console.log(x0);
+    //   console.log("its working!");
+    //
+    //   focus.select("circle.y")
+    //     .attr("transform", "translate(" + dateScaleX(d.date) + "," + popScaleY(d.population) + ")");
+    // }
+    //
+    // svg.append("rectangle")
+    //   .attr("width", width)
+    //   .attr("height", height)
+    //   .style("fill", "none")
+    //   .style("pointer-events", "all")
+    //   .on("mouseover", function() { focus.style("display", null); })
+    //   .on("mouseout", function() { focus.style("display", "none"); })
+    //   .on("mousemove", mousemove);
     var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
-    /* Mouse move
-     *    Handle mouse mouve events for area chart.
-     *
-     *    return: undefined
-     */
+    var focus = svg.append("g")
+    .attr("class", "focus")
+    .style("display", "none");
+
+    focus.append("circle")
+        .attr("r", 4.5);
+
+    focus.append("text")
+        .attr("x", 9)
+        .attr("dy", ".35em");
+
+    svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+
     function mousemove() {
       var x0 = dateScaleX.invert(d3.mouse(this)[0]),
           i = bisectDate(data, x0, 1),
           d0 = data[i - 1],
           d1 = data[i],
           d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-
-      console.log(x0);
-      console.log("its working!");
-
-      focus.select("circle.y")
-        .attr("transform", "translate(" + dateScaleX(d.date) + "," + popScaleY(d.population) + ")");
+      focus.attr("transform", "translate(" + dateScaleX(d.date) + "," + popScaleY(d.population) + ")");
+      focus.select("text").text(d.population.toLocaleString("en-US") + ", " + handleDate(d.date));
     }
-
-    svg.append("rectangle")
-      .attr("width", width)
-      .attr("height", height)
-      .style("fill", "none")
-      .style("pointer-events", "all")
-      .on("mouseover", function() { focus.style("display", null); })
-      .on("mouseout", function() { focus.style("display", "none"); })
-      .on("mousemove", mousemove);
 
 
 
@@ -164,7 +195,9 @@
       height = 400 - margin.top - margin.bottom;
 
     // Bar width
-    var barWidth = width / data.length;
+    var barWidth = width / data.length,
+        barLabelOffset = 5;
+
 
     // Create SVG for chart
     var svg = d3.select("#bar-chart").append("svg")
@@ -200,6 +233,14 @@
       .attr("width", shelterScaleX.rangeBand())
       .attr("y", function(d) { return percentScaleY(d.percent); })
       .attr("height", function(d) { return height - percentScaleY(d.percent); });
+
+    svg.selectAll("text")
+      .data(data)
+      .enter()
+      .append("text")
+      .attr("x", function(d) { return shelterScaleX(d.type) + (shelterScaleX.rangeBand() / 2.5); })
+      .attr("y", function(d) { return percentScaleY(d.percent) - barLabelOffset; })
+      .text(function(d) { return Math.round((d.percent * 100) * 100) / 100 + "%"; })
 
     // Add axiis
     svg.append("g")
@@ -241,6 +282,58 @@
       var format = d3.time.format("%Y-%m-%d");
       item[field] = format.parse(item[field]);
     });
+  }
+
+  /* Handle date string
+   *    Makes simplified date.
+   *
+   *    return: Simplified date string
+   */
+  function handleDate(date) {
+    var month;
+
+    switch (date.getMonth()) {
+      case 0:
+        month = "Jan."
+        break;
+      case 1:
+        month = "Feb."
+        break;
+      case 2:
+        month = "Mar."
+        break;
+      case 3:
+        month = "Apr."
+        break;
+      case 4:
+        month = "May"
+        break;
+      case 5:
+        month = "June"
+        break;
+      case 6:
+        month = "July"
+        break;
+      case 7:
+        month = "Aug."
+        break;
+      case 8:
+        month = "Sep."
+        break;
+      case 9:
+        month = "Oct."
+        break;
+      case 10:
+        month = "Nov."
+        break;
+      case 11:
+        month = "Dec."
+        break;
+      default:
+        console.log("Something went wrong with the date!");
+    }
+
+    return month + " " + date.getFullYear();
   }
 
   /* Load data
